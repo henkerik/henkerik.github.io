@@ -153,6 +153,7 @@ table { border-collapse: collapse; border-spacing: 0; margin-bottom: 20px; width
 td { vertical-align: top; }
 th {
 	background: #BADA55;
+	text-align: left;
 }
 tr:nth-child(even) {
   background: #F8F8F8;
