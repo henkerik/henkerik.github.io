@@ -583,13 +583,13 @@ pre {
   margin-right: auto;
 }
 .ie .the-header .logo {
-  width: 26.25em;
+  width: 35em;
   float: left;
 }
 .ie .the-header .nav-global {
   margin-top: 50px;
   text-align: right;
-  width: 26.25em;
+  width: 35em;
   float: right;
 }
 .ie .unit-article .unit-head-inner,
@@ -666,7 +666,7 @@ pre {
 */
 @media only screen and (min-width: 480px) {
   .the-header .unit-inner {
-    width: 26.25em;
+    width: 35em;
   }
   .the-header .logo a {
     font-size: 42px;
@@ -702,19 +702,19 @@ pre {
   .unit-article .entry-content,
   .unit-article .misc-content,
   .unit-article .unit-foot-inner {
-    width: 26.25em;
+    width: 35em;
   }
   .unit-article .unit-foot .gotop {
     margin-top: 1.625em;
   }
   .layout-page .unit-body .unit-body-inner {
-    width: 26.25em;
+    width: 35em;
   }
   .layout-page .unit-body .article-list {
-    width: 26.25em;
+    width: 35em;
   }
   .the-footer .unit-foot {
-    width: 26.25em;
+    width: 35em;
   }
 }
 /*
@@ -760,13 +760,13 @@ pre {
     width: 60em;
   }
   .the-header .logo {
-    width: 26.25em;
+    width: 35em;
     float: left;
   }
   .the-header .nav-global {
     margin-top: 21px;
     text-align: right;
-    width: 26.25em;
+    width: 35em;
     float: right;
   }
   .unit-article .unit-head-inner,
