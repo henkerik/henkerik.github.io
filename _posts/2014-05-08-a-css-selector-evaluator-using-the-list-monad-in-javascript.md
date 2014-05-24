@@ -13,7 +13,7 @@ In this post I will explain how to write an evaluator for a CSS selector. The CS
     #test > li
 {% endhighlight %}
 
-selects the two li elements in the following document:
+selects the two `li` elements in the following document:
 
 {% highlight html %}
 <body id="body">
@@ -77,7 +77,7 @@ CSS Selector Part | Partial Applied Selector Function | Remaining Type
 
 Our next job is finding a method to chain these partially applied selector functions together. Notice how the remaining type of our partially applied functions line up. However, one quickly sees that simply using function composition is not going to work here: the result of a select function is a list of element while the input of a select function is just a single element. 
 
-To solve this problem, we are going to define a function called `flatMap` which allows us to apply a function with the type `Element => List[Element]` to an argument of type `List[Element]`. In Javascript we may implement flatMap on lists as following:
+To solve this problem, we are going to define a function called `flatMap` which allows us to apply a function with the type `Element => List[Element]` to an argument of type `List[Element]`. In Javascript we may implement `flatMap` on lists as following:
 
 {% highlight javascript %}
 // flatMap[A,B]: List[A] => (A => List[B]) => List[B]

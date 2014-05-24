@@ -149,5 +149,11 @@ Tables from [HTML5 Boilerplate](http://j.mp/rP0wmY)
 No styleguide reference.
 */
 
-table { border-collapse: collapse; border-spacing: 0; }
+table { border-collapse: collapse; border-spacing: 0; margin-bottom: 20px; }
 td { vertical-align: top; }
+thead {
+	background: #BADA55;
+}
+tr:nth-child(odd) {
+  background: #F8F8F8;
+}
