@@ -151,7 +151,7 @@ No styleguide reference.
 
 table { border-collapse: collapse; border-spacing: 0; margin-bottom: 20px; }
 td { vertical-align: top; }
-thead {
+th {
 	background: #BADA55;
 }
 tr:nth-child(odd) {
