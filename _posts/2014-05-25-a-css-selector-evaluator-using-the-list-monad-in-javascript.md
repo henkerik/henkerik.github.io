@@ -3,7 +3,7 @@ layout: post
 title: "Building a CSS selector evaluator using the list monad in Javascript"
 description: ""
 category: 
-tags: [monad,list,javascript,CSS]
+tags: [Monads,Javascript,CSS]
 ---
 {% include JB/setup %}
 
