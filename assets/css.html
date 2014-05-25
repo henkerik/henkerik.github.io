@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSS Evaluator</title>
+<script type="text/javascript">
+// selectByPredicate: (Element => Bool) => Element => List[Element]
+function selectByPredicate (f) {
+  return function (e) {
+    var result = new Array();
+    for (var i = 0; i < e.children.length; i++)
+      if (f(e.children[i])) result.push(e.children[i]);
+    return result;
+  }
+}
+
+// selectById: String => Element => List[Element]
+function selectById (id) {
+  return selectByPredicate(function (e) { 
+    return e.id == id; 
+  });
+}
+
+// selectByTagName: String => Element => List[Element]
+function selectByTagName (name) {
+  return selectByPredicate(function (e) { 
+    return e.tagName == name.toUpperCase(); 
+  });
+} 
+
+// selectByClassName: String => Element => List[Element]
+function selectByClassName (name) {
+  return selectByPredicate(function (e) { 
+    return e.classList.contains(name); 
+  });
+}
+// flatMap[A,B]: List[A] => (A => List[B]) => List[B]
+Array.prototype.flatMap = function (f) {
+  return this.map(f).flatten(); 
+}
+
+// flatten[A]: List[List[A]] => List[A]
+Array.prototype.flatten = function () {
+  return this.reduce(function (left, right) {
+    return left.concat(right)
+  }, new Array());
+}
+
+window.onload = function () 
+{
+  // xs contains the result of the CSS selector: #test > li
+  var body = document.getElementById('body');
+  var xs = [body].flatMap(
+             selectById('test')
+           ).flatMap(
+             selectByTagName('li')
+           );
+
+  for (var i = 0; i < xs.length; i++) 
+    xs[i].style.background = 'green';
+}
+
+</script>
+</head>
+<body id="body">
+  <p>P1</p>
+  <ul id="test">
+    <li>A</li>
+    <li>B</li>
+   </ul>
+   <p>P2</p>
+</body>
+</html>

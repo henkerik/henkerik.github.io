@@ -105,4 +105,4 @@ var xs = [body].flatMap(
          );
 {% endhighlight %}
 
-Looks quite elegant right? For those interested, a working example is available here. In this post we defined a function `flatMap` to allow the composition of functions of the type `A => List[B]`. In a next post I will generalize the `flatMap` function to work on other types than lists, showing that our approach here is just a specific implementation of a more general concept called a monad.  
+Looks quite elegant right? For those interested, I uploaded a [working example](/assets/css.html). In this post we defined a function `flatMap` to allow the composition of functions of the type `A => List[B]`. In a next post I will generalize the `flatMap` function to work on other types than lists, showing that our approach here is just a specific implementation of a more general concept called a monad.  
