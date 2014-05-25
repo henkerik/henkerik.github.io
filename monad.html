@@ -1,0 +1,115 @@
+In this post I shall describe how monads naturally arise when composing impure functions. You might have discovered them yourself! 
+
+Let's first take a look at composing two ordanary pure function:
+
+abstract class Example {
+  def f:Char => Int
+  def g:Int => String
+
+  def together:Char => String =
+    x => g(f(x))
+}
+
+Here we have to function f and g which we may use together by using the result of a call to f as the input to g. In functional programming this is quite a common pattern, so we decide to write a little helper function called compose:
+
+def compose[A,B,C]:(B => C) => (A => B) => A => C = 
+  g => f => x => g(f(x))
+
+Now, we are able to rewrite our original functions as:
+
+def together:Char => String = 
+  g.compose(f)
+
+Composing the functions f and g was easy, but now assume that both f and g may fail. To indicate the possiblitiy of a failure we change the type signatures of f and g to return an Option of their result value instead. A value of type Option[A]contains either the value None or the value Some(a) where a is a value of type A.
+
+abstract class Example {
+  def f:Char => Option[Int]
+  def g:Int => Option[String]
+  
+  def together:Char => Option[String] =
+    x => f(x) match {
+      case None => None
+      case Some(y) => g(x)
+    }
+}
+
+The function together still works but we can not use the compose function to chain f and g together. The approach taken in the example above quickly becomes messy if the number of functions which we chain together increases. To solve this issue, let's add a method to Option with the following type signature:
+
+abstract class Option[+A] {
+  def flatMap[B](f: A => Option[B]):Option[B] = ???
+}
+
+Now we are able to rewrite the together function as:
+
+def together:Char => Option[String] =
+  x => f(x).flatMap(g)
+
+The flatMap function unwraps the Option[A] given as it second parameters to obtain a value of type A. This value is used to call the function given as it's first parameter:
+
+
+
+
+
+
+Why is this usefull? Take a look at the following piece of Java code and ask yourself if it is easy to understand what it does:
+
+abstract class Foo { abstract public Bar getBar(); }
+abstract class Bar { abstract public Zoo getZoo(); }
+abstract class Zoo { abstract public Integer getResult(); }
+
+class Example {
+  public Integer together(Foo foo) {
+    Bar bar = foo.getBar();
+    if (bar != null) {
+      Zoo zoo = bar.getZoo ();
+      if (zoo != null) {
+        return zoo.getResult();
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+}
+
+If you ignore the possiblity of a null value you may think about this function as foo.getBar().getZoo().getResult(). The rest is the neccessary boilerplate code which deal with the fact that a function call may fail. A naive translation to Scala leads to:
+
+abstract class Foo {}
+abstract class Bar {}
+abstract class Zoo {}
+
+def getBar:Foo => Option[Bar]
+def getZoo:Bar => Option[Zoo]
+def getResult:Zoo => Option[Int]
+
+def together:Foo => Option[Int] = foo => getBar(foo) match {
+  case None => None
+  case Some(bar) => getZoo(bar) match {
+    case None => None
+    case Some(zoo) => getResult(zoo)
+  }
+}
+
+Once again, the intent of the code gets lost. However, this time we realize we can hide the boilerplate by composing the functions using flatMap's:
+
+def together:Foo => Option[Int] = 
+  foo => getBar(foo).flatMap(getZoo).flatMap(getResult)
+
+Because this is such a common pattern Scala, special notation called for-comphrenesions are available:
+
+def together:Foo => Option[Int] =
+  foo => for {
+    bar    <- getBar(foo)
+    zoo    <- getZoo(bar)
+    result <- getResult(zoo)
+  } yield result
+
+The intent of what we try to achieve is much more clear. But, remember that the for-comphrension is just syntatic sugar for a sequence of flatMaps's.
+
+So, to summarize: when composing functions we make a distinction between pure and impure functions. Pure functions are function of type A => B while impure function have an explicit side effect present in their return type A => F[B]. We may chain pure function using the compose function, and we may chain impure function using the flatMap function. 
+
+Pure function   A => B    compose
+Impure function A => F[B] bind and unit
+
+In the previous example Option was used as a type constructor, instead of type variable F. The obvious question is wether we may use other type constructors as well? The answer is yes, as long as we define a sensible flatMap function for each type constructor F (Sensible in this context is actually quite riguously defined using the monad laws, but that the topic of another post. )
