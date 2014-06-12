@@ -77,7 +77,7 @@ CSS Selector Part | Partial Applied Selector Function | Remaining Type
 
 Our next job is finding a method to chain these partially applied selector functions together. Notice how the remaining type of our partially applied functions lines up. However, one quickly sees that simply using function composition is not going to work here: the result of a select function is a list of elements while the input of a select function is just a single element. 
 
-To solve this problem, we are going to define a function called `flatMap` which allows us to apply a function with the type `Element => List[Element]` to an argument of type `List[Element]`. In Javascript we may implement `flatMap` on lists as following:
+To solve this problem, we are going to define a function called `flatMap` which allows us to apply a function with the type `A => List[B]` to an argument of type `List[A]`. In Javascript we may implement `flatMap` on lists as following:
 
 {% highlight javascript %}
 // flatMap[A,B]: List[A] => (A => List[B]) => List[B]
