@@ -82,11 +82,11 @@ To solve this problem, we are going to define a function called `flatMap` which 
 {% highlight javascript %}
 // flatMap[A,B]: List[A] => (A => List[B]) => List[B]
 Array.prototype.flatMap = function (f) {
-  return this.map(f).flatten(); 
+  return this.map(f).join(); 
 }
 
-// flatten[A]: List[List[A]] => List[A]
-Array.prototype.flatten = function () {
+// join[A]: List[List[A]] => List[A]
+Array.prototype.join = function () {
   return this.reduce(function (left, right) {
     return left.concat(right)
   }, new Array());
